@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLinks - Go Links for Your Team</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .quick-access {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        input[type="text"]::placeholder {
+            color: #666;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .link-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .link-card p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .link-url {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔗</div>
+            <h1>SmartLinks</h1>
+            <p class="subtitle">AI-Enhanced Go Links for Your Team</p>
+        </div>
+
+        <div class="quick-access">
+            <h2>Quick Link Access</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Type 'go/keyword' or search links..." onkeypress="handleSearch(event)">
+                <button class="btn btn-primary" onclick="performSearch()">Go</button>
+            </div>
+            <p>💡 Try: go/github, go/docs, go/slack</p>
+        </div>
+
+        <div class="links-grid" id="linksContainer">
+            <!-- Links will be loaded here -->
+        </div>
+
+        <div class="actions">
+            <a href="http://localhost:8501" class="btn btn-primary">📊 Open Dashboard</a>
+            <a href="http://localhost:8000/docs" class="btn btn-secondary">🔧 API Docs</a>
+        </div>
+
+        <div class="stats" id="statsContainer">
+            <!-- Stats will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Load popular links and stats
+        async function loadData() {
+            try {
+                // Load analytics
+                const analyticsResponse = await fetch('http://localhost:8000/api/analytics/stats');
+                const analytics = await analyticsResponse.json();
+
+                // Update stats
+                const statsContainer = document.getElementById('statsContainer');
+                statsContainer.innerHTML = `
+                    <div class="stat">
+                        <span class="stat-number">${analytics.total_links || 0}</span>
+                        <span class="stat-label">Total Links</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">${analytics.total_clicks || 0}</span>
+                        <span class="stat-label">Total Clicks</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">${analytics.categories?.length || 0}</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                `;
+
+                // Load and display popular links
+                const linksResponse = await fetch('http://localhost:8000/api/links?limit=6');
+                const links = await linksResponse.json();
+
+                const linksContainer = document.getElementById('linksContainer');
+                linksContainer.innerHTML = links.slice(0, 6).map(link => `
+                    <div class="link-card">
+                        <h3>go/${link.keyword}</h3>
+                        <p>${link.title || link.keyword}</p>
+                        <div class="link-url">
+                            <a href="http://localhost:8000/go/${link.keyword}" style="color: white; text-decoration: none;">
+                                ${link.url.length > 40 ? link.url.substring(0, 40) + '...' : link.url}
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                document.getElementById('statsContainer').innerHTML = `
+                    <div class="stat">
+                        <span class="stat-number">⚠️</span>
+                        <span class="stat-label">API Offline</span>
+                    </div>
+                `;
+            }
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+
+        function performSearch() {
+            const input = document.getElementById('searchInput').value.trim();
+
+            if (!input) return;
+
+            // Handle go/keyword format
+            if (input.startsWith('go/')) {
+                const keyword = input.substring(3);
+                window.open(`http://localhost:8000/go/${keyword}`, '_blank');
+                return;
+            }
+
+            // Handle direct keyword
+            if (input.indexOf(' ') === -1 && input.indexOf('.') === -1) {
+                window.open(`http://localhost:8000/go/${input}`, '_blank');
+                return;
+            }
+
+            // Otherwise, search in dashboard
+            window.open(`http://localhost:8501`, '_blank');
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
